@@ -1,0 +1,3 @@
+useDynLib(Kmisc)
+exportPattern("^[[:alpha:]]+")
+export("%nin%")
