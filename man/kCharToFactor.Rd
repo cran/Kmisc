@@ -5,7 +5,7 @@
   kCharToFactor(x, ...)
 }
 \arguments{
-  \item{x}{a \code{data.frame} object}
+  \item{x}{a \code{data.frame} or \code{list} object}
 
   \item{...}{passed to \code{\link{factor}} function}
 }

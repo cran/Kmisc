@@ -13,10 +13,10 @@
   \item{lvl}{how many extensions do you want to strip from
   your output file?}
 
-  \item{Rext}{the extension to use for the saved object.
-  defaults to .rda}
+  \item{Rext}{the extension to use for the saved object.}
 
-  \item{...}{optional arguments passed to write.table}
+  \item{...}{optional arguments passed to
+  \code{write.table}}
 }
 \description{
   A function that both writes a file to table with

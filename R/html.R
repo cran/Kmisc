@@ -34,13 +34,18 @@ makeHTMLTable <- function( x,
                            replace.periods=TRUE 
                            ) {
   
+  if( length(x) == 0 ) {
+    warning( paste(x, "is of length zero") )
+    x <- ""
+  }
+  
   x <- as.data.frame(x, stringsAsFactors=FALSE, optional=TRUE )
   if( use.row.names == FALSE ) {
     rownames(x) <- NULL
   }
   
   if( use.col.names == FALSE ) {
-    colnames(x) <- paste0("x_", 1:ncol(x) )
+    colnames(x) <- paste(sep="", "x_", 1:ncol(x) )
   }
   
   ## We round any numeric entries so that they aren't printed with
@@ -81,17 +86,17 @@ makeHTMLTable <- function( x,
     if( row.spans == 0 && col.spans == 0 ) {
       
     }
-    out <- paste0( "<table ", attr, ">" )
+    out <- paste( sep="", "<table ", attr, ">" )
     
     for( i in 1:nrow(x) ) {
-      out <- paste0( out, "<tr>" )
+      out <- paste( sep="", out, "<tr>" )
       for( j in 1:ncol(x) ) {
-        out <- paste0( out, "<td>", x[i,j], "</td>" )
+        out <- paste( sep="", out, "<td>", x[i,j], "</td>" )
       }
-      out <- paste0( out, "</tr>" )
+      out <- paste( sep="", out, "</tr>" )
     }
     
-    out <- paste0( out, "</table>" )
+    out <- paste( sep="", out, "</table>" )
     
     cat(out, "\n")
     
@@ -137,10 +142,10 @@ makeHTMLTable <- function( x,
       }
     }
     
-    out <- paste0( "<table ", attr, ">" )
+    out <- paste( sep="", "<table ", attr, ">" )
     
     for( i in 1:nrow(x) ) {
-      out <- paste0( out, "<tr>" )
+      out <- paste( sep="", out, "<tr>" )
       for( j in 1:ncol(x) ) {
         
         cRowSpan <- row.spans[i,j]
@@ -155,28 +160,58 @@ makeHTMLTable <- function( x,
         if( cond1 ) {
           
           if( cRowSpan > 1 ) {
-            openTag <- paste0( openTag, "colspan=", cRowSpan, " " )
+            openTag <- paste( sep="", openTag, "colspan=", cRowSpan, " " )
           }
           if( cColSpan > 1 ) {
-            openTag <- paste0( openTag, "rowspan=", cColSpan, " " )
+            openTag <- paste( sep="", openTag, "rowspan=", cColSpan, " " )
           }
           
-          openTag <- paste0( openTag, ">" )
-          out <- paste0( out, openTag, x[i,j], "</td>" )
+          openTag <- paste( sep="", openTag, ">" )
+          out <- paste( sep="", out, openTag, x[i,j], "</td>" )
           
         }
         
       }
       
-      out <- paste0( out, "</tr>" )
+      out <- paste( sep="", out, "</tr>" )
       
     }
     
-    out <- paste0( out, "</table>" )
+    out <- paste( sep="", out, "</table>" )
     
     cat(out, "\n")
     
   }
+  
+}
+
+#' Make 1D HTML Table
+#' 
+#' This tabling function is intended for the output of \code{kTable}, as
+#' generated when only one 'data' argument is passed.
+#' @export
+#' @param x a \code{data.frame}, typically output of \code{kTable}.
+#' @param class class to be passed to HTML table; used for CSS styling.
+#' @param id id to be passed to HTML table; used for CSS styling.
+#' @param ... optional arguments passed to \code{\link{makeHTMLTable}}.
+#' @seealso \code{\link{kTable}}, \code{\link{makeHTMLTable}}
+#' @examples
+#' y <- factor( rbinom( 100, 2, 0.2 ) )
+#' p1t( kTable( y ) )
+p1t <- function( x,
+                 class='oneDtable',
+                 id=NULL,
+                 ... ) {
+  
+  myAttr <- NULL
+  if( !is.null(class) ) myAttr <- paste( sep="", myAttr, "class='", class, "' ")
+  if( !is.null(id) ) myAttr <- paste( sep="", myAttr, "id='", id, "'")
+  
+  makeHTMLTable( x, 
+                 attr=myAttr,
+                 clean=FALSE,
+                 ...
+  )  
   
 }
 
@@ -185,21 +220,23 @@ makeHTMLTable <- function( x,
 #' Function for outputting cross-tabulated tables as marked-up HTML.
 #' CSS styling can be used to make these tables look especially nice.
 #' @param x a 2x2 table; typically something returned from \code{kTable(x,y)}
-#' @param include.rownames include row names?
-#' @param include.colnames include col names?
-#' @param class class to be passed to HTML table; used for CSS styling
-#' @param id id to be classed to HTML table; used for CSS styling
-#' @param ... optional arguments passed to \code{makeHTMLTable}.
+#' @param class class to be passed to HTML table; used for CSS styling.
+#' @param id id to be passed to HTML table; used for CSS styling.
+#' @param ... optional arguments passed to \code{\link{makeHTMLTable}}.
+#' @export
 #' @seealso \code{\link{kTable}}
 #' @examples
 #' x <- rbinom( 100, 2, 0.2 )
 #' y <- rbinom( 100, 2, 0.2 )
 #' pxt( kTable(x, y) )
-pxt <- function( x, include.rownames=FALSE, include.colnames=FALSE, class='twoDtable', id=NULL, ...) {
+pxt <- function( x, 
+                 class='twoDtable', 
+                 id=NULL, 
+                 ...) {
   
   myAttr <- NULL
-  if( !is.null(class) ) myAttr <- paste0(myAttr, "class='", class, "' ")
-  if( !is.null(id) ) myAttr <- paste0(myAttr, "id='", id, "'")
+  if( !is.null(class) ) myAttr <- paste( sep="", myAttr, "class='", class, "' ")
+  if( !is.null(id) ) myAttr <- paste( sep="", myAttr, "id='", id, "'")
   
   my_row_span <- matrix(1, nrow=nrow(x)-1, ncol=ncol(x))
   my_row_span <- rbind( c( 2, 0, ncol(x)-3, rep(0, ncol(x)-4), 1), my_row_span )
@@ -231,7 +268,7 @@ kImg <- function(x, width=480, height=480) {
     x <- gsub( "^\\./", "", x )
   }
   
-  cat( paste0('<img class="center" src="', x, '" width=', width, ' height=', height, ' />') )
+  cat( paste( sep="", '<img class="center" src="', x, '" width=', width, ' height=', height, ' />') )
   
 }
 
@@ -243,7 +280,7 @@ kImg <- function(x, width=480, height=480) {
 #' @param width width (in pixels) of the SVG file (or, more accurately, canvas in which that file is displayed)
 #' @param height height (in pixels) of the SVG file (or, more accurately, canvas in which that file is displayed)
 #' @param class class passed to the \code{<embed>} tag
-kSvg <- function(file=NULL, width=450, height=450, class=NULL) {
+kSvg <- function(file=NULL, width=4, height=4, class=NULL) {
   
   stopifnot( !is.null(file) )
   ## If we have a period as the first character, remove it.
@@ -252,13 +289,13 @@ kSvg <- function(file=NULL, width=450, height=450, class=NULL) {
     x <- gsub( "^\\.", getwd(), file )
   }
   
-  tag <- paste0('<embed src="', file, '" width=', width, ' height=', height)
+  tag <- paste( sep="", '<embed src="', file, '" width=', width, ' height=', height)
   if( !is.null(class) ) {
-    tag <- paste0( tag, " class='", class, "'" )
+    tag <- paste( sep="", tag, " class='", class, "'" )
   }
   
   cat( "<div align='center'>\n")
-  cat( paste0(tag, ' type="image/svg+xml" />\n') )
+  cat( paste( sep="", tag, ' type="image/svg+xml" />\n') )
   cat("</div>\n")
 }
 
@@ -268,17 +305,17 @@ kSvg <- function(file=NULL, width=450, height=450, class=NULL) {
 #' to embed that image in the page.
 #' 
 #' The \code{dim} attribute is passed on to \code{par( mfrow='dim' )}; ie, it is used if
-#' you are called a plot function that writes more than one plot.
+#' you are calling a plot function that writes more than one plot.
 #' 
 #' The \code{png} device is used.
 #' 
 #' @param my_plot a plot object, or code that generates a plot
 #' @param file file location to output image to
-#' @param width width (in inches) of the plot
-#' @param height height (in inches) of the plot
+#' @param width width (in pixels) of the plot
+#' @param height height (in pixels) of the plot
 #' @param dpi the number of dots per inch used. Default is high to ensure plots are crisp on all displays
 #' @param dim passed to \code{par( mfrow )}; used if making multiple base-R plots
-#' @param scale the scale factor to use when scaling plots for web display. ie, \code{scale=100} implies a setting of \code{width=3} would translate to a width of 300 pixels on a web browser.
+#' @param scale the scale factor to use when scaling plots for web display.
 #' @param ... optional arguments passed to \code{\link{png}}
 #' @export
 #' @examples
@@ -290,16 +327,16 @@ kSvg <- function(file=NULL, width=450, height=450, class=NULL) {
 #'   )
 hImg <- function( my_plot, 
                   file, 
-                  width=4, 
-                  height=3,
+                  width=400, 
+                  height=300,
                   dpi=300,
                   dim=NULL,
                   scale=100,
                   ... ) {
   
   png( file, 
-       width=width, 
-       height=height, 
+       width=width/scale, 
+       height=height/scale, 
        res=dpi, 
        units="in", 
        ... )
@@ -312,7 +349,7 @@ hImg <- function( my_plot,
   print( my_plot )
   
   invisible( dev.off() )
-  kImg( file, width=width*scale, height=height*scale )
+  kImg( file, width=width, height=height )
 }
 
 #' Print SVG to File and Return HTML
@@ -322,8 +359,8 @@ hImg <- function( my_plot,
 #' 
 #' @param my_plot a plot object, or code that generates a plot
 #' @param file location to output file
-#' @param width width (in inches) of the plot
-#' @param height height (in inches) of the plot
+#' @param width width (in pixels) of the plot
+#' @param height height (in pixels) of the plot
 #' @param scale the scale used to scale the plot from inches to pixels, for display in a web browser
 #' @param dim passed to \code{par( mfrow )}; used if making multiple base-R plots
 #' @param ... passed to \code{svg}
@@ -335,9 +372,9 @@ hImg <- function( my_plot,
 #' hSvg( file = "plot_output.svg",
 #'   xyplot( y ~ x, dat )
 #'   )
-hSvg <- function( my_plot, file, width=4, height=3, dim=NULL, scale=100, ... ) {
+hSvg <- function( my_plot, file, width=400, height=300, dim=NULL, scale=100, ... ) {
   
-  svg( file, width=width, height=height, ... )
+  svg( file, width=width/scale, height=height/scale, ... )
   
   if( !is.null(dim) ) {
     if( length(dim) != 2 ) stop("must specifiy 2-length dimension")
@@ -351,5 +388,5 @@ hSvg <- function( my_plot, file, width=4, height=3, dim=NULL, scale=100, ... ) {
   }
   
   invisible( dev.off() )
-  kSvg( file, width=width*scale, height=height*scale )
+  kSvg( file, width=width, height=height )
 }

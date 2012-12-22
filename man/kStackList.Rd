@@ -2,10 +2,13 @@
 \alias{kStackList}
 \title{Stack a List of DataFrame-like Objects}
 \usage{
-  kStackList(list)
+  kStackList(list, which = TRUE)
 }
 \arguments{
   \item{list}{a list of data.frames}
+
+  \item{which}{boolean. add a column \code{which} built
+  from row names?}
 }
 \description{
   Function for stacking a list, where each component of the

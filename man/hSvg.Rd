@@ -2,8 +2,8 @@
 \alias{hSvg}
 \title{Print SVG to File and Return HTML}
 \usage{
-  hSvg(my_plot, file, width = 4, height = 3, dim = NULL,
-    scale = 100, ...)
+  hSvg(my_plot, file, width = 400, height = 300,
+    dim = NULL, scale = 100, ...)
 }
 \arguments{
   \item{my_plot}{a plot object, or code that generates a
@@ -11,9 +11,9 @@
 
   \item{file}{location to output file}
 
-  \item{width}{width (in inches) of the plot}
+  \item{width}{width (in pixels) of the plot}
 
-  \item{height}{height (in inches) of the plot}
+  \item{height}{height (in pixels) of the plot}
 
   \item{scale}{the scale used to scale the plot from inches
   to pixels, for display in a web browser}

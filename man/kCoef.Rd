@@ -35,11 +35,11 @@
   handled.
 }
 \examples{
-## How the remove_udnerscore and remove_dollar arguments act:
+## How the remove_underscore and remove_dollar arguments act:
 ## An example:
 ##                     kDat$variable_other_stuff
-## remove_underscore: +++++++++++++------------
-## remove_dollar:     -----++++++++++++++++++++
+## remove_underscore:  +++++++++++++------------
+## remove_dollar:      -----++++++++++++++++++++
 
 x <- rnorm(100); y <- x * runif(100)
 z <- as.factor( rep( c("apple", "banana", "cherry", "date"), each=25 ) )

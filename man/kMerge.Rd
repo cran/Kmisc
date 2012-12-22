@@ -35,7 +35,8 @@
 x <- data.frame( id=5:1, nums=rnorm(5) )
 y <- data.frame( id=1:3, labels=c(1, 2, 2) )
 merge(x, y, all.x=TRUE) ## re-ordered the data.frame
-kMerge(x, y, by="id") ## preserves ordering of 'x'
+merge(x, y, all.x=TRUE, sort=FALSE) ## nope - NAs cause problems
+kMerge(x, y, by="id") ## preserves ordering of x, even with NAs
 
 ## an id entry appears more than once in y
 y <- data.frame( id=c(1, 1, 2), labels=c(1, 2, 3) )

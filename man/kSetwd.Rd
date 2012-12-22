@@ -10,6 +10,8 @@
 \description{
   A small convenience function that pastes together all
   arguments supplied, then submits those to \code{setwd}.
+  If called with no arguments, it resets the directory to
+  the home directory.
 }
 \examples{
 x <- "my_favourite_dir"

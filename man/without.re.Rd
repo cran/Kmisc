@@ -2,7 +2,7 @@
 \alias{without.re}
 \title{Remove Variables from a List / Data Frame, with Regular Expressions}
 \usage{
-  without.re(dat, pattern)
+  without.re(dat, pattern, value = TRUE, perl = TRUE, ...)
 }
 \arguments{
   \item{dat}{\code{list} or \code{data.frame} object, or
@@ -10,6 +10,13 @@
 
   \item{pattern}{a regular expression pattern to match
   against \code{names(dat)}}
+
+  \item{value}{boolean. passed to \code{grep}}
+
+  \item{perl}{boolean. use perl-compatible regular
+  expressions?}
+
+  \item{...}{optional arguments passed to \code{grep}.}
 }
 \description{
   Remove variables from a \code{list} / \code{data.frame},

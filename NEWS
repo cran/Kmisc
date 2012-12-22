@@ -1,0 +1,19 @@
+Version 0.2.0
+------------------------------------------------------------------------------
+
+  * Added some useful string operations: str_rev() and str_slice(). These
+    functions are written in C for fast execution.
+  * Added in.interval(), a function for checking whether each element of
+    a vector x lies within an interval [lo, hi).
+  * Added extract.re(), without.re() for extracting named objects; objects with
+    names matching / not-matching the RE supplied are returned
+  * Fixed bug with HTML tag functions handling of functions at arguments
+  * Functions no longer depend on Rcpp - may be reintroduced in future
+  * Minor changes to code for R <2.15.0 compatibility
+  * Updated documentation + DESCRIPTION for clarity
+  * Package now byte compiles by default
+  * Introduced attachHTML(), detachHTML() functions for attaching commonly
+    used HTML functions (ie, they do not mask any base package functions)
+  * Exported makeHTMLTag() function, added documentation + examples
+  * Fixed bug in read.cb() for Mac systems
+  * Added scan.cb(), for getting non-tabular data from clipboard

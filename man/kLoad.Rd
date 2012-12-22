@@ -16,6 +16,10 @@
   to assign the \code{load}ed object to a new variable
   name. Hence, this function.
 }
+\details{
+  If multiple arguments are supplied, they will be
+  \code{paste}d together, with \code{collapse=""}.
+}
 \examples{
 dat <- data.frame( x = c(1,2,3), y=c('a','b','c') )
 save( dat, file="dat.rda" )

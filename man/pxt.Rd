@@ -2,26 +2,20 @@
 \alias{pxt}
 \title{Make 2x2 HTML Contingency Table}
 \usage{
-  pxt(x, include.rownames = FALSE,
-    include.colnames = FALSE, class = "twoDtable",
-    id = NULL, ...)
+  pxt(x, class = "twoDtable", id = NULL, ...)
 }
 \arguments{
   \item{x}{a 2x2 table; typically something returned from
   \code{kTable(x,y)}}
 
-  \item{include.rownames}{include row names?}
-
-  \item{include.colnames}{include col names?}
-
   \item{class}{class to be passed to HTML table; used for
-  CSS styling}
+  CSS styling.}
 
-  \item{id}{id to be classed to HTML table; used for CSS
-  styling}
+  \item{id}{id to be passed to HTML table; used for CSS
+  styling.}
 
   \item{...}{optional arguments passed to
-  \code{makeHTMLTable}.}
+  \code{\link{makeHTMLTable}}.}
 }
 \description{
   Function for outputting cross-tabulated tables as

@@ -21,13 +21,14 @@
   HTML tag generating function. For example, by calling
   \code{p <- makeHTMLTag("p")}, we can generate a function
   that interprets all named arguments as attributes, and
-  all unnamed arguments as 'data'. This is primarily used
-  behind the scenes to generate all the HTML tagging
-  functions in \code{\link{html}}.
-
-  Note that this function assumes the presence of the
-  \code{html} environment, which is where HTML function
-  declarations live.
+  all unnamed arguments as 'data', which is generated for a
+  \code{p} HTML tag.
+}
+\examples{
+div <- makeHTMLTag("div")
+my_class = "orange"
+x <- "some text"
+div( class=my_class, id="hello", "This is ", x )
 }
 \seealso{
   \code{\link{html}}

@@ -1,20 +1,15 @@
 ## user name, nice date for file output
-(function() {
-  
-  tmp <- gsub( "-", "", Sys.Date() )
-  .Date <<- substring( tmp, 3, nchar(tmp) )
-  .User.Name <<- paste( Sys.info()[c("sysname", "machine")], collapse="_" )
-  .High.res <- 300
-  
-})()
+tmp <- gsub( "-", "", Sys.Date() )
+.Date <<- substring( tmp, 3, nchar(tmp) )
+.User.Name <<- paste( Sys.info()[c("sysname", "machine")], collapse="_" )
 
 #' Number of non-NA unique elements in a vector
 #'  
 #' Returns the number of non-NA unique elements in a vector. A wrapper to
 #' \code{length( unique( x[!is.na(x)], ... ) )}.
+#' @export
 #' @param x a vector
 #' @param ... passed to \code{\link{unique}}
-#' @export
 lu <- function( x, ...) { length( unique( x[!is.na(x)], ... ) ) }
 
 #' Unique elements in a vector
@@ -22,14 +17,14 @@ lu <- function( x, ...) { length( unique( x[!is.na(x)], ... ) ) }
 #' Returns the unique elements in a vector. A wrapper to
 #' \code{\link{unique}()}.
 #' @param ... passed to \code{\link{unique}}.
-#' @export
 u <- function(...) { unique( ... ) }
 
 #' length( grep( ... ) )
 #' 
-#' This is a wrapper to a commonly used R idiom. See examples for usage.
+#' This is a wrapper to a \code{length( grep( ... ) )}. See examples for usage.
 #' @param ... passed to \code{\link{grep}}.
 #' @seealso \code{\link{re.exists}}
+#' @export
 #' @examples
 #' x <- c("apple", "banana", "cherry")
 #' if( lg( "^ap", x ) > 0 ) {
@@ -39,12 +34,14 @@ lg <- function(...) { length( grep( ... ) ) }
 
 #' Check whether Regular Expression was Found
 #' 
-#' A tighter wrapper of a commonly used R idiom. See examples for usage.
+#' Checks whether a match was found for a given regular expression in a vector.
+#' See examples for usage.
 #' @param ... passed to \code{ \link{grep} }.
 #' @export
 #' @seealso \code{\link{lg}}
 #' @examples
 #' if( re.exists("^ap", c("apple", "banana") ) ) print("yay!")
+#' 
 re.exists <- function(...) { length( grep( ... ) ) > 0 }
 
 #' unlist( strsplit( ... ) )
@@ -100,7 +97,9 @@ ngrep <- function(pattern, x, ...) {
 #' 
 #' Extract variables from a \code{list} / \code{data.frame}.
 #' The first argument is the \code{list} / \code{data.frame}, while the second 
-#' is passed to and parsed from \code{...}. 
+#' is passed to and parsed from \code{...}. \code{\link{name}}s passed to 
+#' \code{...} are first searched for in the global environment; if
+#' not found, we fall back to a character representation of the \code{name}.
 #' We return the \code{list} / \code{data.frame},
 #' including only those whose names were found in \code{...}.
 #' 
@@ -109,26 +108,45 @@ ngrep <- function(pattern, x, ...) {
 #' representation is taken and used for extraction. Furthermore, for a given
 #' item submitted, all text before a \code{$} is removed.
 #' 
+#' @details First, symbols are parsed as characters, and named of \code{dat}
+#' are checked to see if they match any of \code{names(dat)}. If not, we
+#' try to find the variable in the local search path, and match that
+#' against the names. If none of these are successful, we throw an error.
+#' 
 #' @param dat \code{list} or \code{data.frame} object, or other similar object with a \code{names} attribute
 #' @param ... an optional number of 'names' to match in \code{dat}
 #' @export
-#' @seealso \code{\link{without}} \code{\link{extract.re}}
+#' @seealso \code{\link{without}}, \code{\link{extract.re}}
 #' @examples
 #' dat <- data.frame( x = c(1, 2, 3), y = c("a", "b", "c"), z=c(4, 5, 6) )
 #' ## all of these return identical output
 #' dat[ names(dat) %in% c("x","z") ]
 #' extract( dat, x, z)
-#' extract( dat, dat$x, dat$z ) 
+#' extract( dat, dat$x, dat$z )
+#' 
+#' ## we can even have a variable that includes names
+#' a <- "z"
+#' extract( dat, dat$x, a)  
 extract <- function( dat, ... ) {
   
   rawArgs <- match.call(expand.dots=FALSE)$`...`
   args <- gsub( ".*\\$", "", rawArgs )
-  sapply( args, function(x) {
+  args <- sapply( args, function(x) {
     if( x %nin% names(dat) ) {
-      warning( paste("'", x, "' not in names(dat)", collapse="") )
+      tmp <- tryCatch( get(x), error=function(e) {
+        warning( 
+          paste("'", x, "' not in names(", deparse(substitute(dat)), ") nor search path", 
+                sep="", collapse="") 
+          )
+      })
+      return(tmp)
+      
     }
+    
+    return(x)
+    
   })
-  dat <- dat[ names(dat) %in% args ]
+  dat <- dat[ names(dat) %in% unlist(args) ]
   return( dat )
   
 }
@@ -140,10 +158,13 @@ extract <- function( dat, ... ) {
 #' 
 #' @param dat \code{list} or \code{data.frame} object, or other similar object with a \code{names} attribute
 #' @param pattern a regular expression pattern to match against \code{names(dat)}
+#' @param value boolean. passed to \code{grep}
+#' @param perl boolean. use perl-compatible regular expressions?
+#' @param ... optional arguments passed to grep
 #' @export
-#' @seealso \code{\link{grep}} \code{\link{regex}}
-extract.re <- function( dat, pattern ) {
-  return( dat[ names(dat) %in% grep( pattern, names(dat), value=TRUE ) ] )
+#' @seealso \code{\link{grep}}, \code{\link{regex}}
+extract.re <- function( dat, pattern, value=TRUE, perl=TRUE, ... ) {
+  return( dat[ names(dat) %in% grep( pattern, names(dat), value=value, perl=perl, ... ) ] )
 }
 
 #' Remove Variables from a List / Data Frame
@@ -153,10 +174,15 @@ extract.re <- function( dat, pattern ) {
 #' and parsed from \code{...}. We return the \code{list} / \code{data.frame}, 
 #' sans the names matched from \code{...}.
 #' 
-#' #' We can be 'lazy' with how we name the variables. The \code{\link{name}}s
+#' We can be 'lazy' with how we name the variables. The \code{\link{name}}s
 #' passed to \code{...} are not evaluated directly; rather, their character
 #' representation is taken and used for extraction. Furthermore, for a given
 #' item submitted, all text before a \code{$} is removed.
+#' 
+#' @details First, symbols are parsed as characters, and named of \code{dat}
+#' are checked to see if they match any of \code{names(dat)}. If not, we
+#' try to find the variable in the local search path, and match that
+#' against the names. If none of these are successful, we throw an error.
 #' 
 #' @param dat \code{list} or \code{data.frame} object, or other similar object with a \code{names} attribute
 #' @param ... an optional number of 'names' to match in \code{dat}
@@ -172,12 +198,22 @@ without <- function( dat, ... ) {
   
   rawArgs <- match.call(expand.dots=FALSE)$`...`
   args <- gsub( ".*\\$", "", rawArgs )
-  sapply( args, function(x) {
+  args <- sapply( args, function(x) {
     if( x %nin% names(dat) ) {
-      warning( paste("'", x, "' not in names(dat)", collapse="") )
+      tmp <- tryCatch( get(x), error=function(e) {
+        warning( 
+          paste("'", x, "' not in names(", deparse(substitute(dat)), ") nor search path", 
+                sep="") 
+        )
+      })
+      return(tmp)
+      
     }
+    
+    return(x)
+    
   })
-  dat <- dat[ names(dat) %nin% args ]
+  dat <- dat[ names(dat) %nin% unlist(args) ]
   return( dat )
   
 }
@@ -189,16 +225,20 @@ without <- function( dat, ... ) {
 #' 
 #' @param dat \code{list} or \code{data.frame} object, or other similar object with a \code{names} attribute
 #' @param pattern a regular expression pattern to match against \code{names(dat)}
+#' @param value boolean. passed to \code{grep}
+#' @param perl boolean. use perl-compatible regular expressions?
+#' @param ... optional arguments passed to \code{grep}.
 #' @export
 #' @seealso \code{\link{grep}} \code{\link{regex}}
-without.re <- function( dat, pattern ) {
-  return( dat[ names(dat) %nin% grep( pattern, names(dat), value=TRUE ) ] )
+without.re <- function( dat, pattern, value=TRUE, perl=TRUE, ... ) {
+  return( dat[ names(dat) %nin% grep( pattern, names(dat), value=value, perl=perl, ... ) ] )
 }
 
 #' Set Working Directory
 #' 
 #' A small convenience function that pastes together all arguments supplied,
-#' then submits those to \code{setwd}.
+#' then submits those to \code{setwd}. If called with no arguments, it
+#' resets the directory to the home directory.
 #' 
 #' @param ... the set of strings to paste together
 #' @export
@@ -207,8 +247,11 @@ without.re <- function( dat, pattern ) {
 #' #setwd( "C:/", x, "/", "really_awesome_stuff" )
 #' ## calls setwd( paste( "C:/", x, "really_awesome_stuff", collapse="" ) )
 kSetwd <- function(...) {
-  args <- c(...)
-  dir <- paste( args, collapse="" )
+  args <- list(...)
+  if( length(args) == 0 ) {
+    base::setwd("~")
+  }
+  dir <- paste( args, sep="", collapse="" )
   base::setwd(dir)
 }
 
@@ -256,10 +299,27 @@ dapply <- function(...) {
 #' ## with some data on the clipboard, simply write
 #' # x <- read.cb()
 read.cb <- function( sep='\t', ... ) {
-  if( .Platform$OS.type == "darwin" ) {
+  if( Sys.info()["sysname"] == "Darwin" ) {
     read.table( pipe("pbpaste"), sep=sep, ... )
   } else {
     read.table( "clipboard", sep=sep, ... )
+  }
+}
+
+#' Read Data from the Clipboard
+#' 
+#' Convenience function for reading data from the clipboard.
+#' Wraps to \code{\link{scan}}. By default, we assume the data is 
+#' \code{character}, and delimit by new lines.
+#' @export
+#' @param what passed to \code{scan}.
+#' @param sep passed to \code{scan}.
+#' @param ... passed to \code{scan}.
+scan.cb <- function( what=character(), sep="\n", ... ) {
+  if( Sys.info()["sysname"] == "Darwin" ) {
+    scan( pipe("pbpaste"), what=what, sep=sep, ... )
+  } else {
+    scan( "clipboard", what=what, sep=sep, ... )
   }
 }
 
@@ -283,7 +343,7 @@ write.cb <- function( dat,
                       quote=FALSE ) {
   
   if( Sys.info()["sysname"] == "Darwin" ) {
-    write.table( dat, file=pipe("pbpaste", 'w'),
+    write.table( dat, file=pipe("pbcopy"),
                  row.names=row.names,
                  col.names=col.names,
                  sep=sep,
@@ -330,7 +390,7 @@ kSplit <- function(x, sep, names=NULL) {
   if( !is.null(names) ) {
     names(tmp) <- names
   } else {
-    names(tmp) <- paste0( "V", 1:ncol(tmp) )
+    names(tmp) <- paste( "V", 1:ncol(tmp), sep="" )
   }
   
   return(tmp)
@@ -376,6 +436,7 @@ kReplace <- function( vec, from, to=names(from) ) {
 #' problems with non-unique row names, and also to avoid appending 
 #' numbers onto these row names as well.
 #' @param list a list of data.frames
+#' @param which boolean. add a column \code{which} built from row names?
 #' @export
 #' @examples
 #' x <- data.frame( x=c(1, 2, 3) )
@@ -383,12 +444,14 @@ kReplace <- function( vec, from, to=names(from) ) {
 #' y <- data.frame( x=c('a', 'b', 'c') )
 #' rownames(y) <- c("date", "eggplant", "fig")
 #' kStackList( list(x, y) )
-kStackList <- function( list ) {
+kStackList <- function( list, which=TRUE ) {
   stopifnot( all( sapply( list, class ) %in% c("data.frame", "matrix") ) )
   tmp <- do.call( rbind, list )
   if( "which" %in% colnames(tmp) )
     stop("ERROR: 'which' is already a column name in your data!")
-  tmp$which <- gsub( "\\.[0-9]+$", "", rownames( tmp ))
+  if( isTRUE(which) ) { 
+    tmp$which <- gsub( "\\.[0-9]+$", "", rownames( tmp ))
+  }
   rownames(tmp) <- NULL
   return(tmp)  
 }
@@ -397,7 +460,7 @@ kStackList <- function( list ) {
 #' 
 #' Converts characters to factors in a \code{data.frame}. Leaves non-character
 #' columns untouched.
-#' @param x a \code{data.frame} object
+#' @param x a \code{data.frame} or \code{list} object
 #' @param ... passed to \code{\link{factor}} function
 #' @export
 kCharToFactor <- function( x, ... ) {
@@ -415,7 +478,7 @@ kCharToFactor <- function( x, ... ) {
 #' 
 #' Converts factors to characters in a \code{data.frame}. Leaves non-factor columns
 #' untouched.
-#' @param x a \code{data.frame} object.
+#' @param x a \code{data.frame} or \code{list} object.
 #' @export
 kFactorToChar <- function(x) {
   as.data.frame( lapply( x, function(xx) {
@@ -461,7 +524,6 @@ kMakeDummy <- function(x) {
   return( kCharToFactor( as.data.frame(do.call(cbind, out)) ) )
   
 }
-
 
 #' k-means Diagnostic Plot
 #' 
@@ -517,6 +579,9 @@ kStripExtension <- function(x, lvl=1) {
 #' The regular \code{load} function keeps the old variable name used when 
 #' saving that object. Often, we would prefer to assign the \code{load}ed 
 #' object to a new variable name. Hence, this function.
+#' 
+#' If multiple arguments are supplied, they will be \code{paste}d together,
+#' with \code{collapse=""}.
 #' @param ... args to pass to \code{load}
 #' @seealso \code{\link{load}}
 #' @export
@@ -529,7 +594,7 @@ kStripExtension <- function(x, lvl=1) {
 #' ## we protect ourselves from 'forgetting' the name of the
 #' ## object we saved
 kLoad <- function( ... ) {
-  get( load( ... ) )
+  get( load( paste(..., sep="", collapse="") ) )
 }
 
 #' Write out and Save a Tabular File
@@ -539,8 +604,8 @@ kLoad <- function( ... ) {
 #' @param x the R object you want to save / write to file
 #' @param file the location to write the file to, with extension desired for object written by write.table
 #' @param lvl how many extensions do you want to strip from your output file?
-#' @param Rext the extension to use for the saved object. defaults to .rda
-#' @param ... optional arguments passed to write.table
+#' @param Rext the extension to use for the saved object.
+#' @param ... optional arguments passed to \code{write.table}
 #' @export
 #' @examples
 #' dat <- data.frame( x=c(1,2,3), y=c('a','b','c') )
@@ -557,7 +622,7 @@ kSave <- function( x, file, lvl=1, Rext=".rda", ... ) {
   tmp <- kStripExtension( file, lvl=lvl )
   
   save( x,
-        file=paste0( tmp, Rext )
+        file=paste( tmp, Rext, sep="" )
   )
   
 }
@@ -585,15 +650,16 @@ kSave <- function( x, file, lvl=1, Rext=".rda", ... ) {
 #' x <- data.frame( id=5:1, nums=rnorm(5) )
 #' y <- data.frame( id=1:3, labels=c(1, 2, 2) )
 #' merge(x, y, all.x=TRUE) ## re-ordered the data.frame
-#' kMerge(x, y, by="id") ## preserves ordering of 'x'
+#' merge(x, y, all.x=TRUE, sort=FALSE) ## nope - NAs cause problems
+#' kMerge(x, y, by="id") ## preserves ordering of x, even with NAs
 #' 
 #' ## an id entry appears more than once in y
 #' y <- data.frame( id=c(1, 1, 2), labels=c(1, 2, 3) )
 #' kMerge(x, y, by="id")
 kMerge <- function( x, y, by, ... ) {
   
-  kName <- paste0(by, "_orig")
-  x[,paste0(by,"_orig")] <- 1:nrow(x)
+  kName <- paste(by, "_orig", sep="")
+  x[,kName] <- 1:nrow(x)
   tmp <- merge( x=x, y=y, by=by, all.x = TRUE, ... )
   tmp <- tmp[order(tmp[,kName]),]
   tmp <- tmp[,!(names(tmp) %in% kName)]
@@ -708,7 +774,8 @@ kTable <- function( x,
       for( j in 1:ncol(tmp) ) {
         
         tmp[i,j] <- paste( sep="",
-                           paste0( rep(" ", times=my_col_nchar[j] - nchar(tmp[i,j])), collapse="" ),
+                           paste( sep="",
+                                  rep(" ", times=my_col_nchar[j] - nchar(tmp[i,j])), collapse="" ),
                            tmp[i,j], 
                            " (",
                            substr( 
@@ -757,7 +824,8 @@ kTable <- function( x,
         if( my_colSum[j] != 0 ) {
           
           tmp[i,j] <- paste( sep="",
-                             paste0( rep(" ", times=my_col_nchar[j] - nchar(tmp[i,j])), collapse="" ),
+                             paste( sep="",
+                                    rep(" ", times=my_col_nchar[j] - nchar(tmp[i,j])), collapse="" ),
                              tmp[i,j], 
                              " (",
                              substr( 
@@ -837,11 +905,11 @@ kTable <- function( x,
 #' @return a matrix of coefficients with nicely formatted names.
 #' @examples
 #' 
-#' ## How the remove_udnerscore and remove_dollar arguments act:
+#' ## How the remove_underscore and remove_dollar arguments act:
 #' ## An example:
 #' ##                     kDat$variable_other_stuff
-#' ## remove_underscore: +++++++++++++------------
-#' ## remove_dollar:     -----++++++++++++++++++++
+#' ## remove_underscore:  +++++++++++++------------
+#' ## remove_dollar:      -----++++++++++++++++++++
 #' 
 #' x <- rnorm(100); y <- x * runif(100)
 #' z <- as.factor( rep( c("apple", "banana", "cherry", "date"), each=25 ) )
@@ -910,7 +978,7 @@ kCoef <- function( fit,
     cFactor <- names(my_factor_levels)[i]
     for( j in 2:length(my_factor_levels[[i]]) ) {
       cName <- my_factor_levels[[i]][j]
-      old_factor_names <- c( old_factor_names, paste0( cFactor, cName ))
+      old_factor_names <- c( old_factor_names, paste( cFactor, cName, sep="" ))
     }
   }
   
@@ -925,7 +993,8 @@ kCoef <- function( fit,
     for( j in 2:length(my_factor_levels[[i]]) ) {
       cName <- my_factor_levels[[i]][j]
       new_factor_names <- c( new_factor_names, 
-                             paste0( cFactor, ": ", cRef, " -> ", cName ))
+                             paste( cFactor, ": ", cRef, " -> ", cName, sep="" )
+                             )
     }
   }
   
@@ -1003,6 +1072,7 @@ kAnova <- function( fit, test="LRT", replace.periods=TRUE ) {
 #' A wrapper to \code{stats::fivenum} that also produces variable names.
 #' @param x numeric, maybe including \code{NA}s and \code{Inf}s
 #' @seealso \code{\link{fivenum}}
+#' @export
 #' @return \code{data.frame} version of five number summary
 kFivenum <- function(x) {
   tmp <- as.data.frame( matrix( stats::fivenum(x), ncol=5 ) )
