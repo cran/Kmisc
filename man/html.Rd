@@ -1,26 +1,27 @@
-\docType{data}
 \name{html}
 \alias{html}
-\title{HTML Tags}
-\format{An environment of functions, with names corresponding to their tag.}
+\title{Print HTML Elements}
+\usage{
+  html(..., file = "")
+}
+\arguments{
+  \item{...}{A set of HTML tag functions. See examples for
+  details.}
+
+  \item{file}{Location to output the generated HTML.}
+}
 \description{
-  This is an environment containing R functions useful in
-  generating HTML tags. See examples for usage.
+  Use this function to output HTML code for use in R
+  Markdown documents or otherwise.
 }
 \examples{
-## The first argument is interpreted as the 'data' of an HTML element, while
-## all further arguments are interpreted as named attributes to pass to
-## the HTML tag you're using
-data(html)
-myName <- "Kevin"
-with( html, strong( paste0("Hi, ", myName, "!" ) ) )
-
-with( html, table( class="my-favorite-table",
-  tr( td(myName, class="blue") ) )
+html(
+  h1("Welcome!"),
+  div(class="header", table( tr( td("nested elements are ok") ) ) ),
+  footer(class="foot", "HTML5 footer")
   )
-
-## See all of the HTML tags currently available
-print( objects(html) )
 }
-\keyword{datasets}
+\seealso{
+  \code{\link{makeHTMLTag}}, for making your own tags.
+}
 

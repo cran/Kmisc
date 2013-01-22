@@ -29,7 +29,8 @@ SEXP str_slice(SEXP x, SEXP n) {
         int string_counter = 0;
         for( int i=0; i < num_substr; i++ ) {
 
-            char elt[len_substr];
+            // allocate memory for a string
+            char* elt = R_alloc( len_substr+1, sizeof(char)  );
 
             // Push items onto the element
             for( int j=0; j < len_substr; j++ ) {
