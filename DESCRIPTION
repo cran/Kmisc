@@ -2,8 +2,8 @@ Package: Kmisc
 Type: Package
 Title: Miscellaneous functions intended to improve the R coding
         experience
-Version: 0.3.0
-Date: 2013-01-22
+Version: 0.4.0
+Date: 2013-02-21
 Author: Kevin Ushey
 Maintainer: Kevin Ushey <kevinushey@gmail.com>
 Description: A collection of functions for common data reshaping
@@ -11,14 +11,18 @@ Description: A collection of functions for common data reshaping
         for R Markdown documents.
 License: GPL (>= 2)
 LazyData: TRUE
-Depends: lattice, grid
-Suggests: Rcpp, ggplot2, knitr, googleVis
+LinkingTo: Rcpp
+Depends: R (< 3.0.0), lattice, grid, Rcpp (>= 0.10.1)
+Suggests: ggplot2, knitr, googleVis, testthat
 ByteCompile: TRUE
 Collate: 'misc.R' 'html.R' 'package_description.R' 'html_prep.R'
         'in_interval.R' 'str_rev.R' 'str_slice.R' 'clean_doc.R'
         'str_sort.R' 'extract_rows.R' 'is_sorted.R' 'pMerge.R'
         'par.reset.R' 'anat.R' 'bwplot2.R' 'Rcpp_gen_makevars.R'
         'rcpp_apply_generator.R' 'grid.text2.R' 'update_date.R'
-Packaged: 2013-01-23 03:46:19 UTC; kevinushey
+        'RcppExports.R' 'split_runs.R' 'stack_list.R' 'html_attach.R'
+        'pp_plot.R' 'pad.R' 'remove_char_digit.R' 'regex.R'
+Packaged: 2013-02-21 15:16:03 UTC; kevinushey
+NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2013-01-23 06:50:55
+Date/Publication: 2013-02-21 17:09:01

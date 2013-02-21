@@ -1,12 +1,13 @@
 \name{kMerge}
 \alias{kMerge}
-\title{Merge (Left Join) with Index Retainment}
+\title{Merge (Left Join) with Order Retainment}
 \usage{
   kMerge(x, y, by = intersect(names(x), names(y)),
     by.x = by, by.y = by, ...)
 }
 \arguments{
-  \item{x}{the \code{data.frame} you wish to merge y into.}
+  \item{x}{the \code{data.frame} you wish to merge \code{y}
+  into.}
 
   \item{y}{the \code{data.frame} to be merged.}
 
@@ -33,11 +34,6 @@
   another data frame \code{y}, we can merge in the parts of
   \code{y} whose index matches with that of \code{x}, while
   preserving the ordering of \code{x}.
-}
-\details{
-  The function requires you to specify the \code{by}
-  argument; ie, you must have a shared column in your data
-  frames \code{x} and \code{y}.
 }
 \examples{
 x <- data.frame( id=5:1, nums=rnorm(5) )

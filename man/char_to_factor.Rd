@@ -2,17 +2,15 @@
 \alias{char_to_factor}
 \title{Converts Characters to Factors in an Object}
 \usage{
-  char_to_factor(x, ...)
+  char_to_factor(X, ...)
 }
 \arguments{
-  \item{x}{an object.}
+  \item{X}{an object.}
 
-  \item{...}{optional arguments passed to
-  \code{\link{factor}}.}
+  \item{...}{optional arguments passed to \code{factor}.}
 }
 \description{
   Converts characters to factors in an object. Leaves
-  non-character elements untouched. Objects that can be
-  subscripted with \code{[[} are supported.
+  non-factor elements untouched.
 }
 
