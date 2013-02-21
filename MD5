@@ -1,5 +1,5 @@
-a0d9529d6b82d6fa7ffe87cdf3859da2 *DESCRIPTION
-b91ed682ba0d7b872bba4cc2c9f921ea *NAMESPACE
+6c07a47d8101cbe7f5ad8d359aed037d *DESCRIPTION
+dc8439e8335b8436e66f5f27d18f8ed8 *NAMESPACE
 0a58e4a0c03857f1419252115ac36821 *NEWS
 818848d4ad0871f1a32c2156fbb10ca4 *R/RcppExports.R
 f2ecbc1ce4f8eff22f06a37be8d88db0 *R/Rcpp_gen_makevars.R
@@ -28,9 +28,11 @@ d708fdb5fe2b275d199ca8c295938895 *R/stack_list.R
 0a30c09b816fdd671c4b653a8ff388c9 *R/str_slice.R
 928ffacf5c28fdcacf50de917cc17b0c *R/str_sort.R
 04da0ceb8300eb2d52b6748bf1cb5b1d *R/update_date.R
+8b163df0c53c9fff406df70627c1ae73 *Rplots.pdf
 ebf28208fe036ca96203676a657a488a *data/html.rda
-2475ba8e1d32c4bd2024a0ac3aa0ab9c *data/html.txt.gz
-4f5ea17e3e11da398a200d4569df7e68 *inst/doc/Kmisc-intro.Rmd
+77d89e9f834ea5d6d520d31a286ea8d3 *data/html.txt.gz
+3a2d4514c38a550377620004bdfad335 *inst/doc/Kmisc-intro.Rmd
+d03486571fe34e9684d157a101c286da *inst/doc/Kmisc-intro.html
 21d93b55ea55d4da3caebfcb35f2b3bc *inst/doc/markdown.css
 741f45e335a0cc5b53728d6d21f13003 *inst/tests/test-char_to_factor.R
 84a3857b8d57c974e28450818ffd078d *inst/tests/test-factor_to_char.R

@@ -1,7 +1,6 @@
 <!--
-% \VignetteEngine{knitr}
-% \VignetteIndexEntry{Introduction to Kmisc}
-\usepackage[utf8]{inputenc}
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Introduction to Kmisc}
 -->
 
 <link rel="stylesheet" href="markdown.css">
@@ -134,14 +133,12 @@ string operations.
 
 ```{r tidy=FALSE}
 str_rev( c("ABC", "DEF", NA, paste(LETTERS, collapse="") ) )
-str_rev2( c("はひふへほ", "abcdef") )
 ```
 
 `str_slice`: Slices a vector of strings at consecutive indices `n`.
 `str_slice2` exists for potentially unicode strings.
 ```{r tidy=FALSE}
 str_slice( c("ABCDEF", "GHIJKL", "MNOP", "QR"), 2 )
-str_slice2( "ハッピー", 2 )
 ```
 
 `str_sort`: sort a string.

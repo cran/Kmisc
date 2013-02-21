@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Quick Introduction to Kmisc</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+</head>
+
+<body>
+<!--
+%\VignetteEngine{knitr}
+%\VignetteIndexEntry{Introduction to Kmisc}
+-->
+
+<p><link rel="stylesheet" href="markdown.css"></p>
+
+<h1>Quick Introduction to Kmisc</h1>
+
+<p>Kmisc introduces a bunch of utility functions to make the R coding experience
+a bit easier. Some of the most useful functions in the package are shown here.</p>
+
+<pre><code class="r">set.seed(123)
+suppressPackageStartupMessages( library(Kmisc) )
+dat &lt;- data.frame( x=letters[1:4], y=1:4, z=LETTERS[1:4] )
+</code></pre>
+
+<p><code>without</code>: This function is used to remove columns from a <code>list</code> / <code>data.frame</code>.</p>
+
+<pre><code class="r">## let&#39;s remove columns &#39;x&#39; and &#39;z&#39; from dat.
+dat[ !(names(dat) %in% c(&#39;x&#39;, &#39;z&#39;)) ]
+</code></pre>
+
+<pre><code>##   y
+## 1 1
+## 2 2
+## 3 3
+## 4 4
+</code></pre>
+
+<pre><code class="r">
+## I always find that syntax awkward. Let&#39;s use Kmisc::without instead.
+without( dat, x, z )
+</code></pre>
+
+<pre><code>##   y
+## 1 1
+## 2 2
+## 3 3
+## 4 4
+</code></pre>
+
+<pre><code class="r">
+## what if there is a variable &#39;x&#39; in the global environment?
+x &lt;- &quot;a&quot;
+without( dat, x, z )
+</code></pre>
+
+<pre><code>##   y
+## 1 1
+## 2 2
+## 3 3
+## 4 4
+</code></pre>
+
+<pre><code class="r">## finally, we can also index by $ (note: NOT done by partial matching):
+without( dat, dat$x, dat$z )
+</code></pre>
+
+<pre><code>##   y
+## 1 1
+## 2 2
+## 3 3
+## 4 4
+</code></pre>
+
+<pre><code class="r">## this could be handy for vectors with very long names, if using an IDE with
+## auto-complete
+</code></pre>
+
+<p><code>extract</code>: Extract vectors from a data.frame or list. Although there is already
+a good subsetting syntax for lists and vectors, I wanted a complementary
+function for <code>without</code>.</p>
+
+<pre><code class="r">extract( dat, x, y)
+</code></pre>
+
+<pre><code>##   x y
+## 1 a 1
+## 2 b 2
+## 3 c 3
+## 4 d 4
+</code></pre>
+
+<p><code>without.re, extract.re</code>: Extract variables whose names don&#39;t match / do match
+a regular expression pattern.</p>
+
+<pre><code class="r">extract.re( dat, &quot;[xy]&quot;)
+</code></pre>
+
+<pre><code>##   x y
+## 1 a 1
+## 2 b 2
+## 3 c 3
+## 4 d 4
+</code></pre>
+
+<pre><code class="r">without.re( dat, &quot;[xy]&quot;)
+</code></pre>
+
+<pre><code>##   z
+## 1 A
+## 2 B
+## 3 C
+## 4 D
+</code></pre>
+
+<p><code>swap</code>: Replace elements in a vector.</p>
+
+<pre><code class="r">tDat &lt;- dat ## make a temporary copy of dat
+
+## Replace some elements in tDat$y
+tDat$y &lt;- swap( tDat$y, from=c(2, 4), to=c(20, 40) )
+cbind( dat$y, tDat$y )
+</code></pre>
+
+<pre><code>##      [,1] [,2]
+## [1,]    1    1
+## [2,]    2   20
+## [3,]    3    3
+## [4,]    4   40
+</code></pre>
+
+<p><code>factor_to_char</code>, <code>char_to_factor</code>: A set of functions that recurse through
+a list / data.frame and set all elements that are characters to factors,
+and vice versa.</p>
+
+<pre><code class="r">bDat &lt;- data.frame( x=rnorm(10), y=sample(letters,10), z=sample(letters,10) )
+str( bDat )
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    10 obs. of  3 variables:
+##  $ x: num  -0.5605 -0.2302 1.5587 0.0705 0.1293 ...
+##  $ y: Factor w/ 10 levels &quot;c&quot;,&quot;f&quot;,&quot;k&quot;,&quot;l&quot;,..: 10 7 6 9 5 8 3 4 2 1
+##  $ z: Factor w/ 10 levels &quot;a&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,..: 10 9 7 8 1 5 6 3 4 2
+</code></pre>
+
+<pre><code class="r">str( factor_to_char(bDat) )
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    10 obs. of  3 variables:
+##  $ x: num  -0.5605 -0.2302 1.5587 0.0705 0.1293 ...
+##  $ y: chr  &quot;x&quot; &quot;r&quot; &quot;p&quot; &quot;w&quot; ...
+##  $ z: chr  &quot;z&quot; &quot;w&quot; &quot;q&quot; &quot;s&quot; ...
+</code></pre>
+
+<p><code>dapply</code>: The <code>data.frame</code> version of the <code>l/sapply</code> series of functions.</p>
+
+<p>Why have this function when <code>sapply</code> still does much the same? I always get
+frustrated with the fact that either an <code>array</code> or a <code>list</code> is returned
+by sapply, but never a <code>data.frame</code>.</p>
+
+<pre><code class="r">
+dat &lt;- data.frame( x = rnorm(100), y = rnorm(100), z = rnorm(100) )
+dapply( dat, summary )
+</code></pre>
+
+<pre><code>##                x       y       z
+## Min.    -2.31000 -2.0500 -2.0100
+## 1st Qu. -0.62600 -0.7280 -0.5740
+## Median  -0.05870 -0.2060  0.0535
+## Mean    -0.00979 -0.0238  0.1010
+## 3rd Qu.  0.56200  0.5720  0.7790
+## Max.     2.19000  3.2400  2.2900
+</code></pre>
+
+<p><code>kMerge</code>: Left joins, aka. <code>merge( all.x=TRUE, ... )</code> without any mangling 
+of the order.</p>
+
+<pre><code class="r">dat1 &lt;- data.frame( id=5:1, x=c(&quot;a&quot;,&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;), y=rnorm(5) )
+dat2 &lt;- data.frame( id=c(1, 2, 4), z=rnorm(3) )
+
+## default merge changes id order
+merge( dat1, dat2, by=&quot;id&quot;, all.x=TRUE )
+</code></pre>
+
+<pre><code>##   id x       y        z
+## 1  1 b -0.5229  0.68375
+## 2  2 b  0.6608 -0.06082
+## 3  3 b -1.3388       NA
+## 4  4 a  1.2181  0.63296
+## 5  5 a  0.2374       NA
+</code></pre>
+
+<pre><code class="r">## even the sort parameter can&#39;t save you
+merge( dat1, dat2, by=&quot;id&quot;, all.x=TRUE, sort=TRUE )
+</code></pre>
+
+<pre><code>##   id x       y        z
+## 1  1 b -0.5229  0.68375
+## 2  2 b  0.6608 -0.06082
+## 3  3 b -1.3388       NA
+## 4  4 a  1.2181  0.63296
+## 5  5 a  0.2374       NA
+</code></pre>
+
+<pre><code class="r"># kMerge keeps it as is
+kMerge( dat1, dat2, by=&quot;id&quot; )
+</code></pre>
+
+<pre><code>##   id x       y        z
+## 1  5 a  0.2374       NA
+## 2  4 a  1.2181  0.63296
+## 3  3 b -1.3388       NA
+## 4  2 b  0.6608 -0.06082
+## 5  1 b -0.5229  0.68375
+</code></pre>
+
+<p><code>in_interval</code>: A fast C implementation for determing which elements of a 
+vector <code>x</code> lie within an interval <code>[lo, hi)</code>.</p>
+
+<pre><code class="r">x &lt;- runif(10); lo &lt;- 0.5; hi &lt;- 1
+print( data.frame( x=x, inner=in_interval(x, lo, hi) ) )
+</code></pre>
+
+<pre><code>##          x inner
+## 1  0.90915  TRUE
+## 2  0.05638 FALSE
+## 3  0.50291  TRUE
+## 4  0.35054 FALSE
+## 5  0.84556  TRUE
+## 6  0.80644  TRUE
+## 7  0.11733 FALSE
+## 8  0.71269  TRUE
+## 9  0.23527 FALSE
+## 10 0.07496 FALSE
+</code></pre>
+
+<p><code>stack_list</code>: Use this to stack data.frames in a list. This can be useful if
+e.g. you&#39;ve run some kind of bootstrap procedure and have all your results
+stored in as a list of data.frames &ndash; even <code>do.call( rbind, dfs )</code> can be slow.
+The difference is even more prominent when used on very large lists.</p>
+
+<pre><code class="r">dfs &lt;- replicate(1E3, 
+                 data.frame(x=rnorm(10), y=sample(letters,10), z=sample(LETTERS,10)),
+                 simplify=FALSE
+                 )
+str( stack_list(dfs) )
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    10000 obs. of  4 variables:
+##  $ x         : num  1.519 0.377 -2.052 -1.364 -0.201 ...
+##  $ y         : chr  &quot;n&quot; &quot;e&quot; &quot;l&quot; &quot;f&quot; ...
+##  $ z         : chr  &quot;E&quot; &quot;C&quot; &quot;K&quot; &quot;I&quot; ...
+##  $ list_index: int  1 1 1 1 1 1 1 1 1 1 ...
+</code></pre>
+
+<pre><code class="r">system.time( stack_list(dfs) )
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##    0.01    0.00    0.01
+</code></pre>
+
+<pre><code class="r">system.time( do.call(rbind, dfs) )
+</code></pre>
+
+<pre><code>##    user  system elapsed 
+##   0.471   0.008   0.482
+</code></pre>
+
+<h2>Fast String Operations</h2>
+
+<p>For whatever reason, R is missing some nice builtin &#39;string&#39; functions. I&#39;ve
+introduced a few functions, implemented in C for speed, for two common
+string operations.</p>
+
+<p><code>str_rev</code>: Reverses a character vector; ie, a vector of strings.
+<code>str_rev2</code> is there if you need to reverse a potentially unicode string.</p>
+
+<pre><code class="r">str_rev( c(&quot;ABC&quot;, &quot;DEF&quot;, NA, paste(LETTERS, collapse=&quot;&quot;) ) )
+</code></pre>
+
+<pre><code>## [1] &quot;CBA&quot;                        &quot;FED&quot;                       
+## [3] NA                           &quot;ZYXWVUTSRQPONMLKJIHGFEDCBA&quot;
+</code></pre>
+
+<p><code>str_slice</code>: Slices a vector of strings at consecutive indices <code>n</code>.
+<code>str_slice2</code> exists for potentially unicode strings.</p>
+
+<pre><code class="r">str_slice( c(&quot;ABCDEF&quot;, &quot;GHIJKL&quot;, &quot;MNOP&quot;, &quot;QR&quot;), 2 )
+</code></pre>
+
+<pre><code>## [[1]]
+## [1] &quot;AB&quot; &quot;CD&quot; &quot;EF&quot;
+## 
+## [[2]]
+## [1] &quot;GH&quot; &quot;IJ&quot; &quot;KL&quot;
+## 
+## [[3]]
+## [1] &quot;MN&quot; &quot;OP&quot;
+## 
+## [[4]]
+## [1] &quot;QR&quot;
+</code></pre>
+
+<p><code>str_sort</code>: sort a string.</p>
+
+<pre><code class="r">str_sort(&quot;asnoighewgypfuiweb&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;abeefgghiinopsuwwy&quot;
+</code></pre>
+
+<h2>The cool R Markdown / HTML Stuff</h2>
+
+<p>The real point of releasing this package is due to the HTML helper functions
+I&#39;ve made. I&#39;ve found them especially useful in laying out R Markdown documents,
+and also controlling more finely CSS styling and such.</p>
+
+<p><code>makeHTMLTable</code>: Converts a <code>data.frame</code> or <code>matrix</code> into an HTML table.
+Best seen with an example. Note that we require <code>results=&#39;asis&#39;</code> in the chunk
+options.</p>
+
+<pre><code class="r">dat &lt;- data.frame(apple = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), banana = c(1, 2, 3))
+makeHTMLTable(dat, use.col.names = TRUE)
+</code></pre>
+
+<table ><tr><td>apple</td><td>banana</td></tr><tr><td>a</td><td>1</td></tr><tr><td>b</td><td>2</td></tr><tr><td>c</td><td>3</td></tr></table> 
+
+<p><code>kTable</code>: Generated 1D and 2D (contingency) tables, which are then typically
+passed through <code>makeHTMLtable</code> for 1D tables, or <code>pxt</code> for 2D tables.</p>
+
+<pre><code class="r">x &lt;- factor( rbinom(100, 2, 0.2) )
+y &lt;- factor( rbinom(100, 3, 0.3) )
+
+p1t( kTable( x, top.left.cell=&quot;foo&quot; ) )
+</code></pre>
+
+<table class='oneDtable' ><tr><td >foo</td><td >Count (%)</td></tr><tr><td >0</td><td >61 (61.0%)</td></tr><tr><td >1</td><td >36 (36.0%)</td></tr><tr><td >2</td><td > 3 (3.00%)</td></tr><tr><td >Total</td><td >100</td></tr></table> 
+
+<pre><code class="r">pxt( kTable(x, y, 
+            top.left.cell=&quot;foo&quot;, 
+            top.label=&quot;bar&quot;, 
+            left.label=&quot;baz&quot; 
+            ) )
+</code></pre>
+
+<table class='twoDtable' ><tr><td colspan=2 rowspan=2 >foo</td><td colspan=4 >bar</td><td ></td></tr><tr><td >0</td><td >1</td><td >2</td><td >3</td><td >Total</td></tr><tr><td rowspan=3 >baz</td><td >0</td><td >17 (58.6%)</td><td >25 (59.5%)</td><td >17 (65.3%)</td><td >2 (66.6%)</td><td >61</td></tr><tr><td >1</td><td >10 (34.4%)</td><td >16 (38.0%)</td><td > 9 (34.6%)</td><td >1 (33.3%)</td><td >36</td></tr><tr><td >2</td><td > 2 (6.89%)</td><td > 1 (2.38%)</td><td > 0 (0.00%)</td><td >0 (0.00%)</td><td >3</td></tr><tr><td ></td><td >Total</td><td >29</td><td >42</td><td >26</td><td >3</td><td >100</td></tr></table> 
+
+<p><code>kTable</code> with <code>google=TRUE</code>: Generate a 1D table output with the <code>googleVis</code>
+package.</p>
+
+<pre><code class="r">suppressPackageStartupMessages( library(googleVis) )
+tmp &lt;- gvisTable( kTable(x, google=TRUE) )
+cat( tmp$html$chart )
+</code></pre>
+
+<!-- Table generated in R 3.0.0 by googleVis 0.3.3 package -->
+
+<!-- Thu Feb 21 17:13:29 2013 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript" src="http://www.google.com/jsapi">
+</script>
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataTableID495a600f87f3 ()
+{
+  var data = new google.visualization.DataTable();
+  var datajson =
+[
+ [
+ "0",
+"61 (61.0%)" 
+],
+[
+ "1",
+"36 (36.0%)" 
+],
+[
+ "2",
+" 3 (3.00%)" 
+],
+[
+ "Total",
+"100" 
+] 
+];
+data.addColumn('string','x');
+data.addColumn('string','Count (%)');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartTableID495a600f87f3() {
+  var data = gvisDataTableID495a600f87f3();
+  var options = {};
+options["allowHtml"] = true;
+
+     var chart = new google.visualization.Table(
+       document.getElementById('TableID495a600f87f3')
+     );
+     chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart 
+function displayChartTableID495a600f87f3()
+{
+  google.load("visualization", "1", { packages:["table"] }); 
+  google.setOnLoadCallback(drawChartTableID495a600f87f3);
+}
+ 
+// jsChart 
+displayChartTableID495a600f87f3()
+ 
+<!-- jsFooter -->  
+//-->
+</script>
+ 
+
+<!-- divChart -->
+
+<div id="TableID495a600f87f3"
+  style="width: 600px; height: 500px;">
+</div>
+
+<p><code>hImg, hSvg</code>: These utility functions do the work of simultaneously writing a
+plot to file, and then producing the HTML code needed to embed that plot in
+the page. Once again, we require <code>results=&#39;asis&#39;</code> in the chunk options. I
+also show off the nice little <code>gradient</code> function.</p>
+
+<pre><code class="r">x &lt;- rnorm(100); y &lt;- x + runif(100)
+## note that the default resolution is high for PNGs
+hImg( file=&quot;test.png&quot;, width=400, height=300, dpi=300,
+      xyplot( y ~ x, col=gradient(x+y) )
+      )
+</code></pre>
+
+<p><img class="center" src="test.png" width=400 height=300 /></p>
+
+<pre><code class="r">hSvg( file=&quot;test.svg&quot;, width=400, height=300,
+      xyplot( y ~ x, col=gradient(x+y) )
+      )
+</code></pre>
+
+<div align='center'>
+<embed src="test.svg" width=400 height=300 type="image/svg+xml" />
+</div>
+
+<p><code>kCoef, kAnova</code>: These are functions that produce &#39;nicer&#39; coefficient output
+from a model fit, especially when factors are used. However, they don&#39;t work
+quite right for models with interaction effects yet.</p>
+
+<pre><code class="r">x &lt;- rnorm(100); y &lt;- x + runif(100)
+z &lt;- factor( rep(c(&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;), each=25) )
+
+myFit &lt;- lm( y ~ x + z )
+
+## the vanilla way
+coef( summary( myFit ) )
+</code></pre>
+
+<pre><code>##             Estimate Std. Error t value  Pr(&gt;|t|)
+## (Intercept)  0.55452    0.05728  9.6815 7.920e-16
+## x            1.03122    0.02855 36.1191 2.714e-57
+## zb          -0.21696    0.07961 -2.7255 7.645e-03
+## zc           0.02635    0.07999  0.3294 7.426e-01
+## zd           0.01673    0.07935  0.2109 8.335e-01
+</code></pre>
+
+<pre><code class="r">
+## nicer parsing of variable names
+kCoef( myFit )
+</code></pre>
+
+<pre><code>##             Estimate Std. Error t value  Pr(&gt;|t|)
+## (Intercept)  0.55452    0.05728  9.6815 7.920e-16
+## x            1.03122    0.02855 36.1191 2.714e-57
+## z: a -&gt; b   -0.21696    0.07961 -2.7255 7.645e-03
+## z: a -&gt; c    0.02635    0.07999  0.3294 7.426e-01
+## z: a -&gt; d    0.01673    0.07935  0.2109 8.335e-01
+</code></pre>
+
+<p><code>html</code>: Custom HTML in an R Markdown document.</p>
+
+<pre><code class="r">html(
+     table( class=&quot;my-favourite-table&quot;,
+            tr(
+              td(&quot;Apples&quot;),
+              td(&quot;Bananas&quot;)
+              ),
+            tr(
+              td(&quot;20&quot;),
+              td(&quot;30&quot;)
+              )
+            )
+     )
+</code></pre>
+
+<table class='my-favourite-table'><tr><td>Apples</td><td>Bananas</td></tr><tr><td>20</td><td>30</td></tr></table>
+
+</body>
+
+</html>
