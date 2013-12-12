@@ -2,8 +2,8 @@
 \alias{hImg}
 \title{Print Plot to File and Return HTML}
 \usage{
-  hImg(my_plot, file, width = 400, height = 300, dpi = 300,
-    dim = NULL, scale = 100, device = "png", ...)
+hImg(my_plot, file, width = 400, height = 300, dpi = 300, dim = NULL,
+  scale = 100, device = "png", ...)
 }
 \arguments{
   \item{my_plot}{a plot object, or code that generates a
@@ -30,22 +30,23 @@
   \code{\link{png}}}
 }
 \description{
-  A convenience function that prints a plot to file, and
-  then returns HTML to embed that image in the page.
+A convenience function that prints a plot to file, and then
+returns HTML to embed that image in the page.
 }
 \details{
-  The \code{dim} attribute is passed on to \code{par(
-  mfrow='dim' )}; ie, it is used if you are calling a plot
-  function that writes more than one plot.
+The \code{dim} attribute is passed on to \code{par(
+mfrow='dim' )}; ie, it is used if you are calling a plot
+function that writes more than one plot.
 
-  The \code{png} device is used.
+The \code{png} device is used.
 }
 \examples{
+library(lattice)
 ## generate an xyplot, write it to file, and return HTML
 ## code that sources the generated image
 dat <- data.frame( x = rnorm(100), y = rnorm(100) )
 hImg( file = "plot_output.png",
   xyplot( y ~ x, dat )
-  )
+)
 }
 

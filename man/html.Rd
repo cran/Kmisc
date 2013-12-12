@@ -2,26 +2,30 @@
 \alias{html}
 \title{Print HTML Elements}
 \usage{
-  html(..., file = "")
+html(..., file = "", .sub = NULL)
 }
 \arguments{
   \item{...}{A set of HTML tag functions. See examples for
   details.}
 
   \item{file}{Location to output the generated HTML.}
+
+  \item{.sub}{A named list of substitutions to perform; we
+  substitute each symbol from the names of \code{.sub} with
+  its corresponding value.}
 }
 \description{
-  Use this function to output HTML code for use in R
-  Markdown documents or otherwise.
+Use this function to output HTML code for use in R Markdown
+documents or otherwise.
 }
 \examples{
 html(
   h1("Welcome!"),
   div(class="header", table( tr( td("nested elements are ok") ) ) ),
   footer(class="foot", "HTML5 footer")
-  )
+)
 }
 \seealso{
-  \code{\link{makeHTMLTag}}, for making your own tags.
+\code{\link{makeHTMLTag}}, for making your own tags.
 }
 

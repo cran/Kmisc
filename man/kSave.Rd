@@ -2,7 +2,7 @@
 \alias{kSave}
 \title{Write out and Save a Tabular File}
 \usage{
-  kSave(x, file, lvl = 1, Rext = ".rda", ...)
+kSave(x, file, lvl = 1, Rext = ".rda", ...)
 }
 \arguments{
   \item{x}{the R object you want to save / write to file}
@@ -19,9 +19,9 @@
   \code{write.table}}
 }
 \description{
-  A function that both writes a file to table with
-  \code{write.table}, and saves it with the same name but a
-  separate file extension.
+A function that both writes a file to table with
+\code{write.table}, and saves it with the same name but a
+separate file extension.
 }
 \examples{
 dat <- data.frame( x=c(1,2,3), y=c('a','b','c') )

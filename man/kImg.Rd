@@ -2,7 +2,7 @@
 \alias{kImg}
 \title{HTML - Source an Image}
 \usage{
-  kImg(x, width = 480, height = 480)
+kImg(x, width = 480, height = 480)
 }
 \arguments{
   \item{x}{path to an image you want to source}
@@ -12,10 +12,10 @@
   \item{height}{height (in pixels) of the image}
 }
 \description{
-  Convenience function for \code{cat}-ing out HTML markup
-  for an image as \code{<img src="..." />}.
+Convenience function for \code{cat}-ing out HTML markup for
+an image as \code{<img src="..." />}.
 }
 \seealso{
-  \code{\link{hImg}}
+\code{\link{hImg}}
 }
 

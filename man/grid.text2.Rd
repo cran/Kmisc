@@ -2,13 +2,11 @@
 \alias{grid.text2}
 \title{Grid Text with a Background}
 \usage{
-  grid.text2(label, x = unit(0.5, "npc"),
-    y = unit(0.5, "npc"), just = "centre", hjust = NULL,
-    vjust = NULL, check.overlap = FALSE,
-    default.units = "npc", name = NULL,
-    gp = gpar(col = "black", fill = "grey92", lineend = "butt", linejoin = "round"),
-    draw = TRUE, vp = NULL, widthAdj = unit(0.05, "npc"),
-    heightAdj = unit(0.05, "npc"))
+grid.text2(label, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+  just = "centre", hjust = NULL, vjust = NULL, check.overlap = FALSE,
+  default.units = "npc", name = NULL, gp = gpar(col = "black", fill =
+  "grey92", lineend = "butt", linejoin = "round"), draw = TRUE, vp = NULL,
+  widthAdj = unit(0.05, "npc"), heightAdj = unit(0.05, "npc"))
 }
 \arguments{
   \item{label}{A character or \code{\link{expression}}
@@ -65,16 +63,16 @@
   the text and the background rectangle.}
 }
 \description{
-  This function produces text as does \code{grid.text}, but
-  also generates a background rectangle through
-  \code{grid.rect}. Helpful for plotting eg. overlaying
-  correlation statistics on a plot, where you'd like the
-  element to stand out a little more.
+This function produces text as does \code{grid.text}, but
+also generates a background rectangle through
+\code{grid.rect}. Helpful for plotting e.g. overlaying
+correlation statistics on a plot, where you'd like the
+element to stand out a little more.
 }
 \examples{
 x <- rnorm(10)
 y <- rnorm(10)
-xyplot( y ~ x,
+if (require(lattice)) xyplot( y ~ x,
         panel = function(x, y, ...) {
           panel.xyplot(x, y, ...)
           grid.text2("some text\\nwith a nice\\nbackground")
@@ -85,6 +83,6 @@ xyplot( y ~ x,
 ## will work for multi-panel plots as well
 }
 \seealso{
-  \code{\link{grid.text}} and \code{\link{grid.rect}}
+\code{\link{grid.text}} and \code{\link{grid.rect}}
 }
 

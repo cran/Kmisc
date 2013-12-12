@@ -2,7 +2,7 @@
 \alias{kAnova}
 \title{Nicely Formatted ANOVA Table}
 \usage{
-  kAnova(fit, test = "LRT", swap.periods = TRUE)
+kAnova(fit, test = "LRT", swap.periods = TRUE)
 }
 \arguments{
   \item{fit}{the model fit to generate an ANOVA table for.}
@@ -13,8 +13,8 @@
   \item{swap.periods}{swap periods with spaces?}
 }
 \description{
-  Returns a nicely formatted ANOVA table. See
-  \code{\link{kCoef}} for other details.
+Returns a nicely formatted ANOVA table. See
+\code{\link{kCoef}} for other details.
 }
 \examples{
 x <- rnorm(100)

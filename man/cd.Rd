@@ -2,7 +2,7 @@
 \alias{cd}
 \title{Set Working Directory}
 \usage{
-  cd(...)
+cd(...)
 }
 \arguments{
   \item{...}{the set of strings to paste together. if no
@@ -10,8 +10,8 @@
   directory.}
 }
 \description{
-  A small convenience function that wraps \code{file.path}
-  into a \code{setwd} call.
+A small convenience function that wraps \code{file.path}
+into a \code{setwd} call.
 }
 \examples{
 x <- "my_favourite_dir"

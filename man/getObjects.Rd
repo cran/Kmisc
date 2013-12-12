@@ -2,18 +2,18 @@
 \alias{getObjects}
 \title{Get all Objects in Environment}
 \usage{
-  getObjects(env)
+getObjects(env)
 }
 \arguments{
   \item{env}{an environment.}
 }
 \value{
-  a list of the objects contained within that environment.
+a list of the objects contained within that environment.
 }
 \description{
-  Get all objects within an environment. Useful for
-  inspecting the objects available in a particular
-  environment.
+Get all objects within an environment. Useful for
+inspecting the objects available in a particular
+environment.
 }
 \examples{
 myenv <- new.env()

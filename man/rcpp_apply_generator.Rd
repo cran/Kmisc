@@ -1,15 +1,13 @@
 \name{rcpp_apply_generator}
-\alias{rcpp_apply_generator}
 \alias{Rcpp_apply_generator}
+\alias{rcpp_apply_generator}
 \title{Rcpp Apply Generator}
 \usage{
-  rcpp_apply_generator(fun, includes = NULL,
-    depends = NULL, inline = TRUE, returnType = "double",
-    name = NULL, file = NULL, additional = NULL)
+rcpp_apply_generator(fun, includes = NULL, depends = NULL, inline = TRUE,
+  returnType = "double", name = NULL, file = NULL, additional = NULL)
 
-  Rcpp_apply_generator(fun, includes = NULL,
-    depends = NULL, inline = TRUE, returnType = "double",
-    name = NULL, file = NULL, additional = NULL)
+Rcpp_apply_generator(fun, includes = NULL, depends = NULL, inline = TRUE,
+  returnType = "double", name = NULL, file = NULL, additional = NULL)
 }
 \arguments{
   \item{fun}{A character string defining the C++ function.
@@ -44,9 +42,9 @@
   above the code in \code{fun}.}
 }
 \description{
-  Use this function as a generator for your own
-  \code{apply} functions; that is, functions you would like
-  to apply over rows or columns of a matrix.
+Use this function as a generator for your own \code{apply}
+functions; that is, functions you would like to apply over
+rows or columns of a matrix.
 }
 \examples{
 \dontrun{
@@ -56,7 +54,7 @@ squaredSumApply <- rcpp_apply_generator("
   double out = 0;
   for( int i=0; i < x.size(); i++ ) {
     out += x[i];
-    }
+  }
   out = out*out;
   return out;
   ")
@@ -74,12 +72,10 @@ anyBig(x, 2)
 anyBig(x, 1)
 ## example with boost's gcd. silly but demonstrative.
 ## intended to be applied to matrices with 2 rows and n columns
-gcdApply <- rcpp_apply_generator(
+gcdApply <- rcpp_apply_generator( returnType="int",
   includes="<boost/math/common_factor.hpp>",
   fun='
-  NumericVector tmp1 = x;
-  std::vector<int> tmp = as< std::vector< int > >(tmp1);
-  return boost::math::gcd( tmp[0], tmp[1] );
+  return boost::math::gcd( (int)x[0], (int)x[1] );
   ')
 M <- matrix( c(4, 6, 20, 25, 10, 100), nrow=2 )
 gcdApply(M, 2)

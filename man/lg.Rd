@@ -2,7 +2,7 @@
 \alias{lg}
 \title{length( grep( ... ) )}
 \usage{
-  lg(pattern, x, perl = TRUE, ...)
+lg(pattern, x, perl = TRUE, ...)
 }
 \arguments{
   \item{pattern}{regex pattern passed to \code{grep}.}
@@ -17,8 +17,9 @@
   \code{\link{grep}}.}
 }
 \description{
-  This is a wrapper to a \code{length( grep( ... ) )}. See
-  examples for usage.
+This is a wrapper to a \code{length( grep( ... ) )}. See
+examples for usage. Primarily intended for interactive, not
+programmatic, use.
 }
 \examples{
 x <- c("apple", "banana", "cherry")
@@ -27,6 +28,6 @@ if( lg( "^ap", x ) > 0 ) {
   }
 }
 \seealso{
-  \code{\link{re.exists}}
+\code{\link{re_exists}}
 }
 

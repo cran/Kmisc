@@ -2,13 +2,14 @@
 \alias{u}
 \title{Unique elements in a vector}
 \usage{
-  u(...)
+u(...)
 }
 \arguments{
   \item{...}{passed to \code{\link{unique}}.}
 }
 \description{
-  Returns the unique elements in a vector. A wrapper to
-  \code{\link{unique}()}.
+Returns the unique elements in a vector. A wrapper to
+\code{\link{unique}()}. Primarily intended for interactive,
+not programmatic, use.
 }
 

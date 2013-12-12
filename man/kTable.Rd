@@ -2,9 +2,9 @@
 \alias{kTable}
 \title{Make Nicely Formatted Tables}
 \usage{
-  kTable(x, y = NULL, deparse.level = 2,
-    top.left.cell = "", col.names = NULL, row.names = NULL,
-    left.label = NULL, top.label = NULL, google = FALSE)
+kTable(x, y = NULL, deparse.level = 2, top.left.cell = "",
+  col.names = NULL, row.names = NULL, left.label = NULL,
+  top.label = NULL, google = FALSE)
 }
 \arguments{
   \item{x}{the \code{x} variable to build a table on.}
@@ -39,12 +39,12 @@
   \code{gvistable} from the \code{googleVis} package.}
 }
 \description{
-  Function for creating nice 1D and 2D tables. Tables are
-  generated and formatted with both counts and percentages.
-  Primarily intended to be used with R Markdown documents,
-  calling some of the table printing functions. The
-  function returns a \code{data.frame} in a format that can
-  be used with utility HTML generation functions.
+Function for creating nice 1D and 2D tables. Tables are
+generated and formatted with both counts and percentages.
+Primarily intended to be used with R Markdown documents,
+calling some of the table printing functions. The function
+returns a \code{data.frame} in a format that can be used
+with utility HTML generation functions.
 }
 \examples{
 x <- rbinom(100, size=2, p=0.1)
